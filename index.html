@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nour & Youssef - Digital Wedding Invitation</title>
+    
+    <!-- Google Fonts Pairing for Modern Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- 🌸 Sakura Petals Background Canvas -->
+    <canvas id="sakuraCanvas"></canvas>
+
+    <!-- ✉️ 3D Invitation Folding Paper Loader -->
+    <div class="loader-container" id="loaderContainer">
+      <div class="envelope-wrapper">
+        <div class="envelope" id="envelope">
+          <div class="flap"></div>
+          <div class="pocket"></div>
+          <div class="card" id="inviteCard">
+            <div class="card-inner">
+              <span class="card-monogram">N & Y</span>
+              <h2 id="envelopeTitle">دعوة زفاف</h2>
+              <p id="envelopeSubtitle">Click to open your invite</p>
+            </div>
+          </div>
+          <div class="wax-seal" id="waxSeal"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🌐 Floating Language Switcher -->
+    <button class="floating-lang-btn" id="langSwitchBtn" aria-label="Switch language">العربية</button>
+
+    <!-- 🎵 Dynamic Vinyl Music Player (Floating) -->
+    <div class="music-floating-container" id="musicContainer">
+      <div class="music-vinyl-wrapper" id="vinylWrapper">
+        <div class="vinyl-record">
+          <div class="vinyl-sticker"></div>
+        </div>
+      </div>
+      <div class="music-status-tooltip" id="musicTooltip">
+        <span id="musicTitle">Nour & Youssef Soundtrack</span>
+      </div>
+      <audio id="bgAudio" loop></audio>
+    </div>
+
+    <!-- 📱 Master App Shell -->
+    <main class="app-layout" id="appLayout" style="display: none;">
+      
+      <!-- 🎥 Parallax Cinema Video Hero -->
+      <section class="hero-section" id="heroSec">
+        <div class="hero-media-wrapper">
+          <div class="hero-gradient-overlay"></div>
+          <video id="heroVideo" autoplay loop muted playsinline>
+            <source src="" type="video/mp4" />
+          </video>
+        </div>
+        <div class="hero-content">
+          <span class="hero-eyebrow animate-fade-in" id="heroEyebrow">WE ARE INVITING YOU</span>
+          <!-- Dynamic Typewriter Content -->
+          <h1 class="hero-title" id="heroTitle"></h1>
+          <p class="hero-subtitle animate-fade-in" id="heroSubtitle">To celebrate our beautiful beginning</p>
+          <div class="hero-cta-group animate-fade-in">
+            <a href="#rsvp" class="btn btn-primary" id="heroRsvpBtn">Confirm RSVP</a>
+            <a href="#details" class="btn btn-ghost" id="heroVenueBtn">Location Map</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ⏱️ Countdown Timer -->
+      <section class="section scroll-reveal" id="countdownSec">
+        <div class="container">
+          <h2 class="section-title" id="countdownTitle">Counting Down</h2>
+          <div class="countdown-grid">
+            <div class="countdown-card">
+              <span class="countdown-val" id="timerDays">00</span>
+              <span class="countdown-lbl" id="lblDays">Days</span>
+            </div>
+            <div class="countdown-card">
+              <span class="countdown-val" id="timerHours">00</span>
+              <span class="countdown-lbl" id="lblHours">Hours</span>
+            </div>
+            <div class="countdown-card">
+              <span class="countdown-val" id="timerMinutes">00</span>
+              <span class="countdown-lbl" id="lblMinutes">Minutes</span>
+            </div>
+            <div class="countdown-card">
+              <span class="countdown-val" id="timerSeconds">00</span>
+              <span class="countdown-lbl" id="lblSeconds">Seconds</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 📜 Love Story Section -->
+      <section class="section scroll-reveal" id="storySec">
+        <div class="container grid-2">
+          <div class="story-content">
+            <h2 class="section-title" id="storyTitle">Our Story</h2>
+            <p class="story-text" id="storyCopy">Two lives, two hearts, joined in friendship...</p>
+          </div>
+          <div class="story-visual">
+            <div class="story-img-frame">
+              <img id="storyImg" src="" alt="Bride and Groom" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 🏛️ Details Section (When & Where) -->
+      <section class="section scroll-reveal" id="detailsSec">
+        <div class="container">
+          <h2 class="section-title" id="detailsTitle">When & Where</h2>
+          <div class="details-grid">
+            <div class="glass-card details-card">
+              <div class="card-glow"></div>
+              <h3 id="venueTitle">Ceremony & Reception</h3>
+              <p id="venueDesc">The Royal Gardens, Pavilion Hall, 452 Royal Blvd, NY</p>
+            </div>
+            <div class="glass-card details-card">
+              <div class="card-glow"></div>
+              <h3 id="dateTimeTitle">Date & Time</h3>
+              <p id="dateTimeDesc">Thursday, June 25, 2026 at 6:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 🖼️ Moments Section -->
+      <section class="section scroll-reveal" id="momentsSec">
+        <div class="container">
+          <h2 class="section-title" id="momentsTitle">Our Happy Moments</h2>
+          <div class="moments-timeline" id="momentsList">
+            <!-- Dynamically populated timeline -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 📸 Photo Gallery Section -->
+      <section class="section scroll-reveal" id="gallerySec">
+        <div class="container">
+          <h2 class="section-title" id="galleryTitle">Photo Gallery</h2>
+          <div class="gallery-grid" id="galleryList">
+            <!-- Dynamically populated photo grid -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ☁️ Guest Upload Section (Google Drive Uploader) -->
+      <section class="section scroll-reveal" id="uploadSec">
+        <div class="container grid-2">
+          <div class="upload-visual">
+            <div class="upload-img-frame">
+              <img id="uploadImg" src="" alt="Capture Memories" />
+            </div>
+          </div>
+          <div class="glass-card upload-content">
+            <h2 id="uploadTitle">Share the Memories</h2>
+            <p class="upload-desc" id="uploadDesc">Help us capture every angle of our day! Upload any photos or videos you take directly to our wedding album.</p>
+            
+            <form class="upload-form" id="photoUploadForm">
+              <div class="file-dropzone" id="dropzone">
+                <input type="file" id="fileSelector" accept="image/*,video/*" multiple style="display: none;" />
+                <span class="file-icon">📸</span>
+                <span class="file-label" id="fileSelectorLabel">Choose Photos/Videos</span>
+              </div>
+              <div class="selected-files-list" id="selectedFilesContainer" style="display: none;">
+                <!-- Displays loaded filenames -->
+              </div>
+              <button type="submit" class="btn btn-primary w-full" id="uploadSubmitBtn" disabled>Upload Memories</button>
+            </form>
+            <div class="toast-alert" id="uploadToast" style="display: none;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 💌 RSVP Form Section -->
+      <section class="section scroll-reveal" id="rsvp">
+        <div class="container max-w-md">
+          <div class="glass-card rsvp-card">
+            <h2 id="rsvpTitle">Kindly Reply</h2>
+            <p class="rsvp-desc" id="rsvpDesc">We look forward to celebrating with you! Please submit your RSVP by June 1, 2026.</p>
+            
+            <form id="rsvpForm">
+              <div class="form-group">
+                <label for="rsvpName" id="lblRsvpName">Full Name</label>
+                <input type="text" id="rsvpName" required placeholder="Enter your full name" />
+              </div>
+              
+              <div class="form-group">
+                <label id="lblRsvpAttendance">Will you attend?</label>
+                <div class="radio-toggle-group">
+                  <label class="radio-toggle-label">
+                    <input type="radio" name="rsvpAttendance" value="attending" required checked />
+                    <span id="optAttending">Attending Joyfully</span>
+                  </label>
+                  <label class="radio-toggle-label">
+                    <input type="radio" name="rsvpAttendance" value="declining" required />
+                    <span id="optDeclining">Declining Regretfully</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div class="form-group" id="guestsGroup">
+                <label for="rsvpGuests" id="lblRsvpGuests">Number of Guests</label>
+                <select id="rsvpGuests">
+                  <option value="1">1 (Self)</option>
+                  <option value="2">2 (Plus One)</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              
+              <div class="form-group" id="noteGroup">
+                <label for="rsvpNote" id="lblRsvpNote">Special Wishes or Notes</label>
+                <textarea id="rsvpNote" rows="3" placeholder="Leave a warm wish for Nour & Youssef..."></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-primary w-full" id="rsvpSubmitBtn">Submit RSVP</button>
+            </form>
+            
+            <div class="toast-alert" id="rsvpToast" style="display: none;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 👣 Footer Section -->
+      <footer class="footer">
+        <div class="container">
+          <p id="footerText">Made with ❤️ for Nour & Youssef</p>
+        </div>
+      </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

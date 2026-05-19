@@ -1,0 +1,1147 @@
+/* ==========================================================================
+   🎨 PREMIUM DYNAMIC WEDDING INVITATION MASTER STYLESHEET
+   ========================================================================== */
+
+/* --- 1. CORE VARIABLE DEFINITIONS --- */
+:root {
+  /* Dynamic fonts (Will be loaded via Google Fonts link) */
+  --heading-font: "Cormorant Garamond", serif;
+  --body-font: "Manrope", sans-serif;
+  --arabic-font: "Tajawal", sans-serif;
+
+  /* Default visual spring animations */
+  --transition-bezier: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: all 0.8s var(--transition-bezier);
+  --transition-fast: all 0.3s ease;
+}
+
+/* --- 2. GLOBAL RESET & BASES --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  background-color: var(--bg);
+}
+
+body {
+  font-family: var(--body-font);
+  color: var(--text);
+  background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* --- 3. DYNAMIC SAKURA CANVAS BACKDROP --- */
+#sakuraCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* No interaction block */
+  z-index: 5;
+}
+
+/* --- 4. 3D ENVELOPE LOADER SCREEN --- */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--loader-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: hidden;
+  transition: opacity 1.2s var(--transition-bezier), transform 1.2s var(--transition-bezier);
+}
+
+.envelope-wrapper {
+  perspective: 1500px;
+  width: 320px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--surface-strong);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  transform-style: preserve-3d;
+  transition: transform 0.8s var(--transition-bezier);
+}
+
+/* Envelope folds */
+.envelope .flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 110px solid var(--accent);
+  transform-origin: top;
+  z-index: 30;
+  transition: transform 0.6s ease-in-out, border-top-color 0.4s;
+}
+
+.envelope .pocket {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-strong) 100%);
+  border-radius: 0 0 12px 12px;
+  z-index: 20;
+  /* Shadow lines */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  border-top: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Diagonal pocket visual effect */
+.envelope .pocket::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--surface-strong);
+  clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+  z-index: 21;
+  border-top: 1px solid var(--line);
+}
+
+/* Wax Seal Button */
+.wax-seal {
+  position: absolute;
+  top: 95px;
+  left: calc(50% - 24px);
+  width: 48px;
+  height: 48px;
+  background: radial-gradient(circle, #E3C18E 0%, var(--accent) 70%, #9F7E4D 100%);
+  border-radius: 50%;
+  z-index: 40;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+  animation: sealPulse 2s infinite ease-in-out;
+}
+
+.wax-seal::after {
+  content: "♥";
+  color: var(--canvas);
+  font-size: 20px;
+}
+
+@keyframes sealPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 10px rgba(0,0,0,0.35); }
+  50% { transform: scale(1.08); box-shadow: 0 4px 16px var(--color-glow); }
+}
+
+/* The card inside envelope */
+.envelope .card {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  width: 290px;
+  height: 190px;
+  background: var(--white);
+  border-radius: 8px;
+  z-index: 15;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.8s var(--transition-bezier);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--line);
+}
+
+.card-inner {
+  text-align: center;
+  border: 1px solid var(--line);
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.card-monogram {
+  font-family: var(--heading-font);
+  color: var(--accent);
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.card h2 {
+  font-family: var(--heading-font);
+  font-size: 20px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+}
+
+.card p {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-on-dark-muted);
+}
+
+/* Envelope unfolding animations */
+.envelope-wrapper.open .envelope .flap {
+  transform: rotateX(180deg);
+  z-index: 10; /* Lower z-index so card pulls on top */
+}
+
+.envelope-wrapper.open .envelope .card {
+  transform: translateY(-130px);
+  z-index: 25; /* Rises over pockets */
+}
+
+.envelope-wrapper.open .envelope .wax-seal {
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- 5. FLOATING CONTROLLERS --- */
+.floating-lang-btn {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: var(--button-ghost-bg);
+  border: 1px solid var(--button-ghost-border);
+  color: var(--text);
+  font-family: var(--body-font);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  z-index: 900;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  transition: var(--transition-fast);
+}
+
+.floating-lang-btn:hover {
+  background: var(--accent);
+  color: var(--canvas);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Floating Music Vinyl */
+.music-floating-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  z-index: 900;
+  gap: 12px;
+}
+
+.music-vinyl-wrapper {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: #090909;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.4s var(--transition-bezier);
+}
+
+.music-vinyl-wrapper:hover {
+  transform: scale(1.08) rotate(15deg);
+}
+
+.vinyl-record {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #1a1a1a 20%, #0d0d0d 60%, #050505 100%);
+  border: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+}
+
+/* Grooves */
+.vinyl-record::after {
+  content: "";
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.05);
+}
+
+.vinyl-sticker {
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+}
+
+.vinyl-sticker::after {
+  content: "♥";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--canvas);
+  font-size: 10px;
+}
+
+/* Vinyl Spin Keyframe */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.music-vinyl-wrapper.playing .vinyl-record {
+  animation: spin 12s linear infinite;
+}
+
+/* Music Tooltip */
+.music-status-tooltip {
+  background: var(--button-ghost-bg);
+  border: 1px solid var(--button-ghost-border);
+  backdrop-filter: blur(12px);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-on-dark-muted);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(10px);
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.music-floating-container:hover .music-status-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* --- 6. PARALLAX HERO SECTION --- */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+}
+
+.hero-media-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-media-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--hero-overlay);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  color: var(--hero-text);
+  max-width: 800px;
+  padding: 0 24px;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--hero-accent);
+  display: block;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.hero-title {
+  font-family: var(--heading-font);
+  font-size: 4rem;
+  font-weight: 300;
+  margin-bottom: 15px;
+  letter-spacing: 0.05em;
+  color: var(--hero-text);
+  min-height: 80px; /* Typwriter height placeholder */
+}
+
+.hero-subtitle {
+  font-family: var(--heading-font);
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--hero-text-muted);
+  margin-bottom: 40px;
+}
+
+.hero-cta-group {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.hero-cta-group .btn-ghost {
+  color: var(--hero-text);
+}
+
+/* --- 7. GENERAL SECTIONS & CONTAINER LAYOUT --- */
+.section {
+  padding: 100px 0;
+  position: relative;
+  z-index: 20;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.max-w-md {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+  position: relative;
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+  overflow: hidden;
+  transition: transform 0.4s var(--transition-bezier), box-shadow 0.4s var(--transition-bezier);
+}
+
+.glass-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px var(--color-glow-soft);
+  border-color: var(--accent);
+}
+
+.card-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--color-glow) 0%, transparent 60%);
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+/* Headings */
+.section-title {
+  font-family: var(--heading-font);
+  font-size: 2.8rem;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 48px;
+  letter-spacing: 0.08em;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: var(--line);
+  margin: 16px auto 0 auto;
+}
+
+/* --- 8. COUNTDOWN TIMER --- */
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.countdown-card {
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+  transition: var(--transition-fast);
+}
+
+.countdown-card:hover {
+  border-color: var(--accent);
+  transform: scale(1.03);
+}
+
+.countdown-val {
+  font-family: var(--heading-font);
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: var(--text);
+  display: block;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.countdown-lbl {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* --- 9. LOVE STORY --- */
+.story-text {
+  font-size: 1.15rem;
+  font-family: var(--heading-font);
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.story-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.story-img-frame {
+  position: relative;
+  border-radius: 24px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  transform: rotate(2deg);
+  transition: transform 0.4s var(--transition-bezier);
+}
+
+.story-img-frame:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.story-img-frame img {
+  width: 100%;
+  max-width: 380px;
+  height: 480px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* --- 10. DATE, TIME & VENUE DETAILS --- */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.details-card {
+  text-align: center;
+}
+
+.details-card h3 {
+  font-family: var(--heading-font);
+  font-size: 1.8rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.details-card p {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+/* --- 11. MEMORABLE MOMENTS TIMELINE --- */
+.moments-timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+.moments-timeline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--line);
+  transform: translateX(-50%);
+}
+
+.moment-item {
+  position: relative;
+  width: 50%;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.moment-item.left {
+  left: 0;
+  text-align: right;
+  padding-right: 48px;
+}
+
+.moment-item.right {
+  left: 50%;
+  text-align: left;
+  padding-left: 48px;
+}
+
+/* Bullets */
+.moment-item::before {
+  content: "";
+  position: absolute;
+  top: 36px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--canvas);
+  z-index: 10;
+}
+
+.moment-item.left::before {
+  right: -8px;
+}
+
+.moment-item.right::before {
+  left: -8px;
+}
+
+.moment-bubble {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease;
+}
+
+.moment-bubble:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+.moment-bubble img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.moment-info {
+  padding: 20px;
+}
+
+.moment-info h4 {
+  font-family: var(--heading-font);
+  font-size: 1.4rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.moment-info p {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* --- 12. GALLERY GRID --- */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  height: 280px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: transform 0.4s var(--transition-bezier);
+}
+
+.gallery-item:hover {
+  transform: scale(1.03);
+  border-color: var(--accent);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+/* --- 13. SERVERLESS UPLOADER --- */
+.upload-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.upload-img-frame {
+  border-radius: 24px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  transform: rotate(-2deg);
+  transition: transform 0.4s var(--transition-bezier);
+}
+
+.upload-img-frame img {
+  width: 100%;
+  max-width: 380px;
+  height: 380px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.file-dropzone {
+  border: 2px dashed var(--line);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+  transition: var(--transition-fast);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-dropzone:hover {
+  border-color: var(--accent);
+  background: rgba(214, 180, 122, 0.03);
+}
+
+.file-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.file-label {
+  font-size: 0.9rem;
+  color: var(--text-on-dark-muted);
+}
+
+.selected-files-list {
+  background: rgba(0, 0, 0, 0.25);
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  color: var(--text-on-dark);
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.selected-files-list div {
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- 14. MODERN PREMIUM FORMS & BUTTONS --- */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group > label {
+  display: block;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: var(--text);
+  font-family: var(--body-font);
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(214, 180, 122, 0.2);
+}
+
+/* Toggle Radios */
+.radio-toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.radio-toggle-label {
+  cursor: pointer;
+}
+
+.radio-toggle-label input {
+  display: none;
+}
+
+.radio-toggle-label span {
+  display: block;
+  text-align: center;
+  padding: 14px;
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  background: var(--input-bg);
+  transition: var(--transition-fast);
+  color: var(--muted); /* High-contrast soft rose-slate on bright cards */
+}
+
+.radio-toggle-label input:checked + span {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--canvas); /* Vibrant off-white contrast text */
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(214, 180, 122, 0.2);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--canvas);
+  border: 1px solid var(--accent);
+  box-shadow: 0 8px 20px rgba(214, 180, 122, 0.25);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(214, 180, 122, 0.35);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: var(--button-ghost-bg);
+  border: 1px solid var(--button-ghost-border);
+  color: var(--text-on-dark);
+}
+
+.btn-ghost:hover {
+  background: var(--accent);
+  color: var(--canvas);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Alert Toast alerts */
+.toast-alert {
+  margin-top: 20px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid transparent;
+  animation: fadeIn 0.4s ease;
+}
+
+.toast-alert.success {
+  background: rgba(47, 107, 91, 0.15);
+  border-color: var(--secondary);
+  color: var(--text);
+}
+
+.toast-alert.error {
+  background: rgba(255, 0, 0, 0.05);
+  border-color: #ff4d4d;
+  color: #ff9999;
+}
+
+/* --- 15. SCROLL TRIGGER ANIMATION ENGINE --- */
+.scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition: opacity 1.2s var(--transition-bezier), transform 1.2s var(--transition-bezier);
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Typing Effect cursor line */
+.typing-cursor::after {
+  content: "|";
+  animation: blink 0.8s step-end infinite;
+  color: var(--hero-accent);
+}
+
+@keyframes blink {
+  from, to { color: transparent }
+  50% { color: var(--hero-accent); }
+}
+
+/* --- 16. FOOTER --- */
+.footer {
+  padding: 48px 0;
+  text-align: center;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+/* --- 17. MOBILE TYPOGRAPHY & ARABIC ADAPTATION (RTL OVERRIDES) --- */
+
+/* RTL Overrides */
+html[dir="rtl"] {
+  text-align: right;
+}
+
+html[dir="rtl"] .hero-title {
+  min-height: 80px;
+}
+
+html[dir="rtl"] .moment-item.left {
+  text-align: left;
+  padding-right: 0;
+  padding-left: 48px;
+}
+
+html[dir="rtl"] .moment-item.right {
+  text-align: right;
+  padding-left: 0;
+  padding-right: 48px;
+}
+
+html[dir="rtl"] .moment-item.left::before {
+  right: auto;
+  left: -8px;
+}
+
+html[dir="rtl"] .moment-item.right::before {
+  left: auto;
+  right: -8px;
+}
+
+html[dir="rtl"] .radio-toggle-group {
+  direction: rtl;
+}
+
+html[dir="rtl"] .floating-lang-btn {
+  right: auto;
+  left: 24px;
+}
+
+html[dir="rtl"] .music-floating-container {
+  right: auto;
+  left: 24px;
+  flex-direction: row-reverse;
+}
+
+/* Mobile Responsiveness adjustments */
+@media (max-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .hero-title {
+    font-size: 2.8rem;
+    min-height: 60px;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+  }
+  
+  .countdown-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .moments-timeline::before {
+    left: 16px;
+  }
+  
+  .moment-item {
+    width: 100%;
+    padding-left: 36px !important;
+    padding-right: 0 !important;
+    text-align: left !important;
+  }
+  
+  .moment-item::before {
+    left: 12px !important;
+    right: auto !important;
+  }
+  
+  .moment-item.right {
+    left: 0;
+  }
+  
+  html[dir="rtl"] .moment-item {
+    text-align: right !important;
+    padding-right: 36px !important;
+    padding-left: 0 !important;
+  }
+  
+  html[dir="rtl"] .moment-item::before {
+    right: 12px !important;
+    left: auto !important;
+  }
+  
+  .story-img-frame img {
+    height: 380px;
+  }
+  
+  /* Mobile adjustments for floating controllers to prevent overlap */
+  .floating-lang-btn {
+    top: 16px;
+    right: 16px;
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  
+  .music-floating-container {
+    bottom: 16px;
+    right: 16px;
+  }
+  
+  .music-vinyl-wrapper {
+    width: 42px;
+    height: 42px;
+  }
+  
+  /* RTL mobile adjustments */
+  html[dir="rtl"] .floating-lang-btn {
+    right: auto;
+    left: 16px;
+  }
+  
+  html[dir="rtl"] .music-floating-container {
+    right: auto;
+    left: 16px;
+  }
+}
