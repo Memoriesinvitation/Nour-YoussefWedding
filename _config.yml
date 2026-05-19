@@ -1,0 +1,8 @@
+# Jekyll Configuration
+# Exclude folders that are not part of the active website content to prevent compilation failures.
+exclude:
+  - template-blueprint
+  - README.md
+  - task.md
+  - implementation_plan.md
+  - walkthrough.md
